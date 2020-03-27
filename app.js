@@ -58,7 +58,7 @@ function a(){
 }
 
  //create an object with anonymous function
-var c = {name:'Ashish'
+var c = {name:'Ashish',
         log: function(){
             this.name = 'Updated Ashish';
             console.log(this); // should point to variable C object and this is fine  
@@ -81,7 +81,7 @@ var c = {name:'Ashish'
         
         //how to mitigiate this problem?
         //add another self variable that points to C object
-        var c = {name:'Ashish'
+        var c = {name:'Ashish',
         log: function(){
             var self = this; //crucial line. this will always point to C
             self.name = 'Updated Ashish';
@@ -98,3 +98,183 @@ var c = {name:'Ashish'
         
 
 
+//arrays in javascript
+//collection of objects. Unlike other programming languages which only allows one type ,Arrays can hold any objects in javascript
+var defArr = new Array(); //defination of array
+var arr = [1,2,3];
+defArr[0] =11;
+console.log(defArr[0]);
+
+
+//objects holding capacity
+
+var objArr = [
+    1,
+    false,
+    {name:'Ashish'},
+    function myfunc(){console.log('this has to be a joke');}
+];
+
+//javscript can sometimes be poa
+//because it preassumes certain things such as semicolons
+//one prime example
+
+function funky(){
+    return
+    {
+        name:'Ashish'
+        
+    }
+}
+ 
+console.log("javascript self assuming the semicolon statement "+funky());   //javascript puts return;
+
+
+
+//IIFE --> Immediately invoked Function expression
+
+(2+3); //valid javascript statement
+//everything inside () these brackets are read as expressions by javascript
+/* function(){
+    return 'This is error field. Javscript won't accept this because it takes this function defination as function statement and expects a identifier. ';
+}   
+*/
+
+//To trick the javascript engine
+(function(/*parameters*/){}(/*arguments*/ ));
+
+
+//immediately invoked function expression example
+var Surname = 'Thakuri';
+
+(function(global){
+    
+
+    var marry = function(n,surnameNew){
+        global.Surname=surnameNew;   //will change global execution context variable
+        return 'Congrats '+ n +' '+surnameNew;
+        
+    }
+    global.Marry = marry;  //way to be embarrased when revising code
+}(window)); //Remember the call 
+
+//yes yes. 
+console.log(Marry('Arya','Thapa'));
+
+
+
+
+//now about closures
+//what about them
+//closures literally mean closing the data , In python it means binding the data without passing anything .. same here
+
+function greet(whatToSay){
+    return function(name){
+        console.log(whatToSay+' '+name);
+    }
+}
+
+greet('Hi')('Jhamak');
+
+//same thing but different way
+
+var sayHi = greet('Namaste');
+sayHi('samikshya');
+
+
+
+//closures another example
+
+function buildFunctions(){
+    arr=[]; //remember array is collection of objects which means this can hold functions too.
+    for(var i =0;i<3;i++){
+        
+        arr.push(
+            function(){console.log('closure example (variable i) iteration process.The value of i is '+i);}
+        );
+
+    }
+    return arr;
+}
+
+var func=buildFunctions();
+func[0]();
+func[1]();
+func[2]();
+
+/*
+Output
+
+closure example (variable i) iteration process.The value of i is 3
+app.js:192 closure example (variable i) iteration process.The value of i is 3
+app.js:192 closure example (variable i) iteration process.The value of i is 3
+
+why is that?
+Its simple. 
+Contrary to other programming langauge logic. 
+javascript stores code as its property. It only looks and process what is inside when it is invoked.
+the function is being called after i is set to 3 outside of its execution context. Memory stack is storing i as 3 even though the context is already processed and removed.
+
+*/
+
+
+
+//how to mitigiate this problem?
+//for ES6 javascript
+//one of the method is using let variable
+
+function buildFunctionsReloaded(){
+    var arr=[];
+    for(var i=0;i<3;i++){
+        let j=i;   //this will create new memory space everytime it is called.
+        arr.push(
+            function (){console.log('This is reloaded buildFunctions with let keyword where the value of i is '+j);}
+        );
+        /*
+        using IIFE functionality
+        arr.push(
+            function(j){
+                return function(){
+                    console.log('using Immediately invoked function expression capabilities '+j);
+                }
+
+                Defination area:
+
+
+
+
+
+
+            }(i);
+        )
+        */
+    }
+    return arr;
+}
+
+var callFunc = buildFunctionsReloaded();
+callFunc[0]();
+callFunc[1]();
+callFunc[2]();
+
+
+
+// Function factories
+
+function greetLang(language){
+    language = language || 'en';
+    return function(firstname,lastname){
+        if(language == 'en'){
+            console.log("hello "+ firstname + " "+ lastname);
+        }else if(language == 'np'){
+            console.log("नमस्ते "+ firstname + " "+ lastname);
+        }
+    }
+}
+
+var startGreet = greetLang('np');
+startGreet('ashish','thapa');
+
+
+
+//callback functions 
