@@ -2,7 +2,7 @@
 
 /*
 objects can be defined in two ways
-var a = new Object(0;
+var a = new Object(0);
     or use curly braces to initiate a object
     
 */
@@ -277,4 +277,171 @@ startGreet('ashish','thapa');
 
 
 
-//callback functions 
+//bind call and apply
+
+var person = {
+    firstname:'Ashish',
+    lastname:'Thapa',
+    getFullName: function(){
+        return this.firstname+ ' ' +this.lastname;
+    }
+}
+
+var myFunction = function(lang){
+    console.log(this.getFullName()); //this means person here
+    console.log("languages familiar with is "+ lang);
+}
+
+myCopyFunc = myFunction.bind(person);  //copy of myFunction is created with reference to person object. 
+
+
+
+myCopyFunc('en');
+myFunction.call(person,'en');  //call binds then invokes the function
+myFunction.apply(person,['en']); //same as call function , the only difference is that array has to be passed as argument here
+
+
+
+//function borrowing
+var person2 = {
+    firstname :'Arya',
+    lastname:'Thakuri'
+}
+//if same variable names are used then, coninciding variable names will be binded and replaced with original
+console.log(person.getFullName.call(person2));
+
+//function currying
+//creating a copy of function with preset parameters or changed parameters
+
+function hotelSelection(SelectionApp,Region){
+    return SelectionApp + ' is looking for '+Region; 
+}
+
+var trivagoHotelSearch =   hotelSelection.bind(this,'HOTEL TRIVAGO');
+
+
+/*
+
+
+equivalent of saying
+function trivagoHotelSearch(Region){
+    var SelectionApp = 'HOTEL TRIVAGO';
+    return SelectionApp + ' is looking for '+Region;
+}
+
+*/
+
+console.log(trivagoHotelSearch('NEPAL'));
+
+
+
+//functional programming example
+var arr = [1,2,3]
+function mapForEach(arr,fn){
+    newArr = [];
+    for(var i=0;i<arr.length;i++){
+        newArr.push(fn(arr[i]))
+
+    }
+    return newArr;
+}
+var isGreaterThan2 = mapForEach(arr,function(val){return val>2;});
+console.log(isGreaterThan2);
+
+
+//function that takes two parameters
+var checkForLimit = function(limiter,item){
+    return limiter<item;
+}
+
+//with bind method you can set default parameter.
+var isItgreaterthan10 = mapForEach(arr,checkForLimit.bind(this,10));
+console.log(isItgreaterthan10);
+
+//simplified checkForLimit that only needs one value
+var checkPastLimitSimplified = function(limiter){
+    return function(limiter,value){
+        return limiter<value;
+    }.bind(this,limiter);
+
+};
+
+console.log(mapForEach(arr,checkPastLimitSimplified(1)));
+
+//protoypical inheritance
+var person ={
+    firstName:'Default',
+    lastName:'Default',
+    getFullName:function(){return this.firstName + ' '+ this.lastName}
+}
+
+var ashish = {
+    firstName:'Ashish',
+    lastName:'Thapa'
+}
+console.log(person.getFullName.call(ashish));
+//performance issues in real life
+
+ashish.__proto__ = person;
+
+console.log(ashish.getFullName());
+
+for(var attributes in ashish){
+    if(ashish.hasOwnProperty(attributes)){
+        console.log(attributes+ ' : '+ashish[attributes]);
+    }
+}
+
+
+function blister(a,b,c){
+    console.log(arguments.length);
+    return function(obj){
+        console.log('hey '+obj);
+    }
+}
+var keyring= blister(1,2,3);
+keyring(12);
+
+
+//creating custom extend function
+
+
+var obj1={a:'1as',b:'2bs'};
+var obj2={c:'3cs',d:'4ds'};
+var extend = createAssigner(function(obj){
+    keys =[]
+    for(var key in obj){ 
+        //iterate through every property in object
+        keys.push(key);
+    }
+    return keys;
+}) //all i need is to pass this whole code as parameter
+
+
+function createAssigner(keysData){  //keysData is a code that is being passed through
+    return function(obj){
+        //when extend is called
+        
+        if(arguments.length < 2) return [];
+        for(var i=0;i<arguments.length;i++){
+            source = arguments[i];
+            //console.log(source);
+            keys=keysData(arguments[i]);
+            length = keys.length;
+            console.log(keys);
+            for(var j=0;j<length;j++){
+                key = keys[j];
+               
+                obj[key]=source[key];
+            }
+            console.log('--------------');
+            
+        }
+        return obj;
+    };
+
+}
+
+console.log(extend(obj1,obj2));
+
+
