@@ -410,8 +410,7 @@ var obj1={a:'1as',b:'2bs'};
 var obj2={c:'3cs',d:'4ds'};
 var extend = createAssigner(function(obj){
     keys =[]
-    for(var key in obj){ 
-        //iterate through every property in object
+    for(var key in obj){   //iterates and stores keys in buffer and not object 
         keys.push(key);
     }
     return keys;
@@ -428,20 +427,16 @@ function createAssigner(keysData){  //keysData is a code that is being passed th
             //console.log(source);
             keys=keysData(arguments[i]);
             length = keys.length;
-            console.log(keys);
             for(var j=0;j<length;j++){
                 key = keys[j];
-               
                 obj[key]=source[key];
             }
-            console.log('--------------');
-            
         }
         return obj;
     };
 
-}
+}console.log(extend(obj1,obj2));
 
-console.log(extend(obj1,obj2));
+
 
 
