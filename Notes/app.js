@@ -35,7 +35,16 @@ console.log(d); //Namaste
 changeGreeting(c); //this is possible because functions are objects that run only on execution phase.  
 //two process of javascript compilation process. first declare and define then run.  
 //as changeGreeting is initiated. its important properties(attributes) such as CODE and name are filled.
-//next step is execution phase 
+//next step is execution phase
+
+
+//Deep copy and shallow copy in javascript
+//as objects are pass by reference . one way to copy a reference completely is
+
+JSON.parse(JSON.stringify(object));
+//for shallow copy. use the spread operator
+obj1 = {...object}
+
 function changeGreeting(obj){
     obj.greeting='Guten Morgen';
 }
