@@ -35,4 +35,7 @@ Similarly if `true || true` condition is encountered then associativity of || op
     
 converts into number
 
-2. 
+2. [A re introduction to javascript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/A_re-introduction_to_JavaScript)
+
+3. [Execution context in javascript](https://medium.com/@happymishra66/execution-context-in-javascript-319dd72e8e2c)
+
