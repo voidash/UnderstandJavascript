@@ -1,5 +1,4 @@
 
-
 /*
 objects can be defined in two ways
 var a = new Object(0);
@@ -7,7 +6,7 @@ var a = new Object(0);
     
 */
 function greet(person){
-    person = person || {lastname:'thakuri'};
+    person = person || {lastname:'surname'};
     console.log("hello " + person.lastname);
 
 }
@@ -67,14 +66,14 @@ function a(){
 }
 
  //create an object with anonymous function
-var c = {name:'Ashish',
+var c = {name:'Ram',
         log: function(){
-            this.name = 'Updated Ashish';
+            this.name = 'Updated Ram';
             console.log(this); // should point to variable C object and this is fine  
             var d = function(newname){
                 this.name = newname;
             }
-            d('Updated again Ashish');
+            d('Updated again Ram');
             //now next uncommented line is really a mess. By logic : "since 'this' keyword is link to its outer execution context. 
             //Changes due to d() function should reflect the name attribute mutation relating to c object 
             //but no javascript sucks so this will actually add the new Name attribute in global execution context.
@@ -90,15 +89,15 @@ var c = {name:'Ashish',
         
         //how to mitigiate this problem?
         //add another self variable that points to C object
-        var c = {name:'Ashish',
+        var c = {name:'Ram',
         log: function(){
             var self = this; //crucial line. this will always point to C
-            self.name = 'Updated Ashish';
+            self.name = 'Updated Ram';
             console.log(this);   
             var d = function(newname){
                 self.name = newname;  //self. is related to c not global object
             }
-            d('Updated again Ashish');
+            d('Updated again Ram');
             console.log(this);  
         }}; 
 
@@ -120,7 +119,7 @@ console.log(defArr[0]);
 var objArr = [
     1,
     false,
-    {name:'Ashish'},
+    {name:'Ram'},
     function myfunc(){console.log('this has to be a joke');}
 ];
 
@@ -131,7 +130,7 @@ var objArr = [
 function funky(){
     return
     {
-        name:'Ashish'
+        name:'Ram'
         
     }
 }
@@ -154,7 +153,7 @@ console.log("javascript self assuming the semicolon statement "+funky());   //ja
 
 
 //immediately invoked function expression example
-var Surname = 'Thakuri';
+var Surname = 'surname';
 
 (function(global){
     
@@ -168,7 +167,7 @@ var Surname = 'Thakuri';
 }(window)); //Remember the call 
 
 //yes yes. 
-console.log(Marry('Arya','Thapa'));
+console.log(Marry('surname','Kuwar'));
 
 
 
@@ -282,15 +281,15 @@ function greetLang(language){
 }
 
 var startGreet = greetLang('np');
-startGreet('ashish','thapa');
+startGreet('Ram','Kuwar');
 
 
 
 //bind call and apply
 
 var person = {
-    firstname:'Ashish',
-    lastname:'Thapa',
+    firstname:'Ram',
+    lastname:'Kuwar',
     getFullName: function(){
         return this.firstname+ ' ' +this.lastname;
     }
@@ -313,8 +312,8 @@ myFunction.apply(person,['en']); //same as call function , the only difference i
 
 //function borrowing
 var person2 = {
-    firstname :'Arya',
-    lastname:'Thakuri'
+    firstname :'surname',
+    lastname:'surname'
 }
 //if same variable names are used then, coninciding variable names will be binded and replaced with original
 console.log(person.getFullName.call(person2));
@@ -384,20 +383,20 @@ var person ={
     getFullName:function(){return this.firstName + ' '+ this.lastName}
 }
 
-var ashish = {
-    firstName:'Ashish',
-    lastName:'Thapa'
+var Ram = {
+    firstName:'Ram',
+    lastName:'Kuwar'
 }
-console.log(person.getFullName.call(ashish));
+console.log(person.getFullName.call(Ram));
 //performance issues in real life
 
-ashish.__proto__ = person;
+Ram.__proto__ = person;
 
-console.log(ashish.getFullName());
+console.log(Ram.getFullName());
 
-for(var attributes in ashish){
-    if(ashish.hasOwnProperty(attributes)){
-        console.log(attributes+ ' : '+ashish[attributes]);
+for(var attributes in Ram){
+    if(Ram.hasOwnProperty(attributes)){
+        console.log(attributes+ ' : '+Ram[attributes]);
     }
 }
 
