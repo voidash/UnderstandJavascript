@@ -1,11 +1,8 @@
-# Repo that has sample codes and notes for understanding javsscript and typescript
-
-
+# Repo that Notes and sample codes for understanding javascript and typescript
 
 ## Compilation of Blogs
 
 1. [Coersion Free Code Camp](https://www.freecodecamp.org/news/js-type-coercion-explained-27ba3d9a2839)
-
 
 important takeway from the blog:
 
